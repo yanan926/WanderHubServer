@@ -8,6 +8,7 @@ const LocalStrategy = require("passport-local");
 const session = require("express-session");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+const destinationRouter = require('./routes/destination')
 
 app.use(cors());
 require("dotenv").config();
@@ -80,6 +81,8 @@ app.post('/login', function(req, res, next) {
     });
   })(req, res, next);
 });
+
+app.use("/", destinationRouter);
 
 
 app.listen(PORT, () => {
