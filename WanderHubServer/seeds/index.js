@@ -15,6 +15,8 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
+const imageGalleryList = imageList.map((image) => ({ url: image }));
+
 const seedDB = async () => {
     await Destination.deleteMany({});
     for (let i = 0; i < 300; i++) {
@@ -32,9 +34,8 @@ const seedDB = async () => {
             },
             city: `${cities[random1000].city}`,
             state:`${cities[random1000].state}`,
-            imageList: [
-               imageList.map((image)=>{url: image})
-            ]
+            imageList: imageGalleryList
+            
         })
         await wanderHubDestination.save();
     }
