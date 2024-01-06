@@ -21,6 +21,8 @@ const DestinationSchema = new Schema({
             required: true
         }
     },
+    latitude: Number,
+    longitude: Number,
     description: String,
     city: String,
     state:String,

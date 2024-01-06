@@ -30,8 +30,11 @@ const seedDB = async () => {
                 coordinates: [
                     cities[random1000].longitude,
                     cities[random1000].latitude,
+                    0,
                 ]
             },
+            latitude:  cities[random1000].latitude,
+            longitude: cities[random1000].longitude,
             city: `${cities[random1000].city}`,
             state:`${cities[random1000].state}`,
             imageList: imageGalleryList
