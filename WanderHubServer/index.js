@@ -9,6 +9,28 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const destinationRouter = require('./routes/destination')
 const reivewsRouter = require('./routes/review')
+// Import the Cloudinary package
+const cloudinary = require('cloudinary').v2;
+const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+// Configure Cloudinary with your cloud name, API key, and API secret
+cloudinary.config({
+  cloud_name: "dhwbxnjb8",
+  api_key: "538548839227719",
+  api_secret: "8Dlr2_GzoolTKB_nk0vSm2SGdVE",
+});
+
+// Configure multer to use Cloudinary as storage
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: 'uploads', // specify the folder in Cloudinary where you want to store the images
+    format: async (req, file) => 'png', // supports promises as well
+    public_id: (req, file) => 'computed-filename-using-request',
+  },
+});
+const upload = multer({ storage: storage });
 
 app.use(cors());
 require("dotenv").config();
@@ -46,9 +68,7 @@ app.post("/register", async (req, res) => {
     const user = new User({ email, username });
     const newUser = await User.register(user, password);
     res.status(200).json(newUser)
-    // Redirect after successful registration
   } catch (e) {
-    // Handle registration error
     res.status(400).json({ error: 'Registration failed', details: e.message });
   }
 });
@@ -81,10 +101,19 @@ app.post('/login', function(req, res, next) {
   })(req, res, next);
 });
 
+app.post('/upload', upload.single('file'), (req, res) => {
+  try {
+    // Access the Cloudinary URL from the req.file object
+    const imageUrl = req.file.path;
+    res.json({ imageUrl });
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 app.use("/destinations", destinationRouter);
 app.use('/destinations/reviews', reivewsRouter)
-
-
 app.listen(PORT, () => {
   console.log(`running at http://localhost:${PORT}`);
 });
