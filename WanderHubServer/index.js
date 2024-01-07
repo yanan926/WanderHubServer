@@ -13,12 +13,13 @@ const reivewsRouter = require('./routes/review')
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
+require("dotenv").config();
 
-// Configure Cloudinary with your cloud name, API key, and API secret
+// Configure Cloudinary
 cloudinary.config({
-  cloud_name: "dhwbxnjb8",
-  api_key: "538548839227719",
-  api_secret: "8Dlr2_GzoolTKB_nk0vSm2SGdVE",
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUDIDARY_API_KEY,
+  api_secret: process.env.CLOUDIDARY_API_SECRET,
 });
 
 // Configure multer to use Cloudinary as storage
@@ -33,7 +34,6 @@ const storage = new CloudinaryStorage({
 const upload = multer({ storage: storage });
 
 app.use(cors());
-require("dotenv").config();
 
 const PORT = process.env.PORT || 8080;
 
@@ -62,6 +62,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
+//user register
 app.post("/register", async (req, res) => {
   try {
     const { email, username, password } = req.body;
@@ -73,6 +75,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
+//user login
 app.post('/login', function(req, res, next) {
   passport.authenticate('local', function(err, user) {
     if (err) {
@@ -101,6 +104,7 @@ app.post('/login', function(req, res, next) {
   })(req, res, next);
 });
 
+//user upload their own images
 app.post('/upload', upload.single('file'), (req, res) => {
   try {
     // Access the Cloudinary URL from the req.file object
