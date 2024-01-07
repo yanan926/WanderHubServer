@@ -25,8 +25,8 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: 'uploads', // specify the folder in Cloudinary where you want to store the images
-    format: async (req, file) => 'png', // supports promises as well
+    folder: 'uploads', 
+    format: async (req, file) => 'png', 
     public_id: (req, file) => 'computed-filename-using-request',
   },
 });
@@ -35,7 +35,7 @@ const upload = multer({ storage: storage });
 app.use(cors());
 require("dotenv").config();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/wanderHub";
 
