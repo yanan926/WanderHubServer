@@ -1,7 +1,7 @@
 
 const destinationRouter = require("express").Router();
 const destinationController = require("../controllers/destination");
-const {getAllDestinations, getOneDestination  } = destinationController;
+const {getAllDestinations, getOneDestination, postImage  } = destinationController;
 
 destinationRouter
   .route("/")
@@ -10,6 +10,7 @@ destinationRouter
 destinationRouter
   .route("/:id")
   .get(getOneDestination)
+  .post(postImage)
 
 
 module.exports = destinationRouter;

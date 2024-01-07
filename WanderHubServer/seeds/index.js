@@ -5,10 +5,11 @@ const descriptionList = require('./description')
 const Destination = require('../models/destination');
 const Review = require('../models/review');
 
-mongoose.connect('mongodb://localhost:27017/wanderHub', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+require("dotenv").config();
+
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/wanderHub";
+
+mongoose.connect(dbUrl);
 
 const db = mongoose.connection;
 
