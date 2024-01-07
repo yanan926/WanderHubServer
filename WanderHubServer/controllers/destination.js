@@ -2,11 +2,17 @@ const Destination = require('../models/destination');
 
 const getOneDestination = async (req, res,) => {
   try {
-  const destination = await Destination.findById(req.params.id)
+  const destination = await Destination.findById(req.params.id).populate({
+    path: 'reviews',
+    populate: {
+        path: 'author'
+    }
+})
+
   res.status(200).json(destination);
   }catch(err) {
     res.status(500).json({
-      message: `Unable to retrieve destination data with ID ${req.params.id}`,
+      message: `${err}`,
     });
 
   }

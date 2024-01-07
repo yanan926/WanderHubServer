@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const flash = require("connect-flash");
 const User = require("./models/user");
 const passport = require("passport");
 const mongoose = require("mongoose");
@@ -9,10 +8,10 @@ const session = require("express-session");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const destinationRouter = require('./routes/destination')
+const reivewsRouter = require('./routes/review')
 
 app.use(cors());
 require("dotenv").config();
-app.use(flash());
 
 const PORT = process.env.PORT || 3000;
 
@@ -77,12 +76,13 @@ app.post('/login', function(req, res, next) {
       const token = jwt.sign({ userId: user.id }, 'secret-key', { expiresIn: '24h' });
 
       // Send the JWT in the response
-      res.status(200).json({ token: token });
+      res.status(200).json({ token: token, userId: user.id });
     });
   })(req, res, next);
 });
 
-app.use("/", destinationRouter);
+app.use("/destinations", destinationRouter);
+app.use('/destinations/reviews', reivewsRouter)
 
 
 app.listen(PORT, () => {
