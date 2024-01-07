@@ -1,10 +1,8 @@
 const reviewsRouter = require("express").Router();
 const reviewsController = require("../controllers/review");
-const { getReviews, createReview, deleteReview } = reviewsController;
+const { createReview} = reviewsController;
 
-reviewsRouter.route("/:id").get(getReviews).post(createReview).delete(deleteReview);
-
-reviewsRouter.route("/:id/:reviewId").delete(deleteReview);
+reviewsRouter.route("/:id").post(createReview);
 
 module.exports =  reviewsRouter;
 
