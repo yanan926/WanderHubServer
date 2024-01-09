@@ -31,7 +31,7 @@ const storage = new CloudinaryStorage({
   },
 });
 const upload = multer({ storage: storage, limits: {
-  fieldSize: 10 * 1024 * 1024, // Adjust as needed
+  fieldSize: 50 * 1024 * 1024, 
 }, });
 
 app.use(cors());
