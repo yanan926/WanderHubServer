@@ -30,7 +30,9 @@ const storage = new CloudinaryStorage({
     public_id: (req, file) => 'computed-filename-using-request',
   },
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage: storage, limits: {
+  fieldSize: 10 * 1024 * 1024, // Adjust as needed
+}, });
 
 app.use(cors());
 
